@@ -1,0 +1,2 @@
+Inicialmente no grababa el vídeo en disco.
+Para que lo grabase he seguido los pasos que indican aquí: https://stackoverflow.com/questions/35242735/can-not-read-or-play-a-video-in-opencvpython-using-videocapture
