@@ -35,6 +35,7 @@ time.sleep(2.0)
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
+
 # keep looping
 while True:
 	# grab the current frame
@@ -44,6 +45,8 @@ while True:
 	# color space
 	frame = imutils.resize(frame, width=600)
 
+        # Le damos la vuelta
+        frame=cv2.flip(frame,1)
         
         #cv2.putText(frame,"width="+str(width)+ " height="+str(height),(225,300), font, 1,(255,255,255),2)
 
@@ -68,7 +71,16 @@ while True:
 
         
         #cv2.putText(frame,"cnts="+str(cnts),(300,30), font, 0.7,(255,255,255),2)
-        cv2.putText(frame,"cnts="+str(len(cnts)),(300,30), font, 0.7,(255,255,255),2)
+        cv2.putText(frame,"cnts="+str(len(cnts)),(5,30), font, 0.7,(255,255,255),2)
+        # Pintamos un circulo alrededor del pixel central pero atencion porque las
+        # coordenadas aqui son columna y fila
+        cv2.circle(frame,(330,225), 10, (0,255,0), 3)
+
+        # Leemos el pixel central pero atencion porque las
+        # coordenadas aqui son fila y columna
+        px = frame[225,330] 
+        # cprint "pixel central=", px
+        cv2.putText(frame,"cnts="+str(len(cnts))+". px="+str(px),(5,30), font, 0.9,(255,255,255),2)
 	# only proceed if at least one contour was found
 	if len(cnts) > 0:
 		# find the largest contour in the mask, then use
@@ -102,17 +114,24 @@ while True:
 #		thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
 #		cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
 
-        px = frame[225,300]
+        # px = frame[330,225]
         # print "pixel central=", px
-#        cv2.circle(frame,(225, 300), 5, (0,255,0), -1)
+        # cv2.circle(frame,(330,225), 5, (0,255,0), -1)
 	# show the frame to our screen
 	cv2.imshow("Frame", frame)
-	# key = cv2.waitKey(1) & 0xFF
-	key = cv2.waitKey(0)
+	key = cv2.waitKey(1) & 0xFF
+	# key = cv2.waitKey(0)
+
+	# if the 'p' key is pressed, entramos en un bucle hasta pulsar 'c'
+	if key == ord("p"):
+                print "Pulsa c para continuar"
+		while key != ord("c"):
+                        key = cv2.waitKey(1) & 0xFF
+                        
 
 	# if the 'q' key is pressed, stop the loop
 	if key == ord("q"):
-		break
+		break 
 
 # cleanup the camera and close any open windows
 camera.release()
